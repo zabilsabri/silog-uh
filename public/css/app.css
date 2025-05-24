@@ -93,6 +93,12 @@ label{
     }
 }
 
+@media screen and (max-width: 992px) {
+    .welcome-section {
+        gap: 0px !important;
+    }
+}
+
 @media screen and (max-width: 450px){
     .content {
         padding: 0px 0px 15px 0px !important;
@@ -113,10 +119,6 @@ label{
 
     form {
         padding: 0px 10px 0px 10px !important;
-    }
-
-    hr{
-        display: none !important;
     }
 
     .tab-pane {

@@ -1,0 +1,155 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.btn-primary {
+    --bs-btn-bg: #003370;
+    --bs-btn-border-color: #003370;
+}
+
+.content {
+    min-height: 65vh;
+    width: 100%;
+}
+
+.profile-picture{
+    object-fit: cover;     
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.detail-description p {
+    margin: 0px;
+}
+
+.image-overflow{
+    width: 200px;          
+    height: 200px;
+    object-fit: cover;     
+    overflow: hidden;
+}
+
+.font-small{
+    font-size: 14px;
+}
+
+.font-smaller{
+    font-size: 13px !important;
+}
+
+.profile-dot {
+    width: 30px;
+    text-align: center;
+}
+
+.image-small{
+    width: 30px !important;
+    height: 30px !important;
+}
+
+.image-medium{
+    width: 45px !important;
+    height: 45px !important;
+}
+
+.image-big{
+    width: 60px !important;
+    height: 60px !important;
+}
+
+label{
+    font-size: 14px;
+}
+
+.form-control{
+    font-size: 14px;
+}
+
+.table-container {
+    overflow-x: auto; 
+    white-space: nowrap;
+    width: 100%; 
+}
+
+.table {
+    border-collapse: collapse; /* Optional: collapse cell borders */
+}
+
+.full-width-fixed-height {
+    width: 100%;
+    height: 300px;
+    object-fit: contain;
+    display: block;
+}
+
+.note-editor .note-editable {
+    line-height: 1.4;
+}
+
+@media screen and (max-width: 768px) {
+    .content{
+        margin: 0px !important;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 450px){
+    .content {
+        padding: 0px 0px 15px 0px !important;
+    }
+
+    .card {
+        width: 100% !important;
+    }
+
+    .container {
+        padding: 0px !important;
+        margin: 0px !important;
+    }
+
+    .page-head {
+        padding: 10px 10px 0px 10px;
+    }
+
+    form {
+        padding: 0px 10px 0px 10px !important;
+    }
+
+    hr{
+        display: none !important;
+    }
+
+    .tab-pane {
+        padding: 10px
+    }
+
+    .page-detail{
+        padding: 10px;
+    }
+}
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spinner {
+    width: 30px;
+    height: 30px;
+    border: 5px solid #ffffff;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.ellipsis-readmore {
+    cursor: pointer;
+    color: #007bff; /* Adjust color to match your design */
+    text-decoration: underline;
+}

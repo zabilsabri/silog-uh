@@ -35,6 +35,6 @@ class Thesis extends Model
     }
 
     public function examiner() {
-        return $this->hasMany(Examiner::class, 'examiner_id');
+        return $this->hasMany(Examiner::class, 'thesis_id');
     }
 }

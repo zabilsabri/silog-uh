@@ -14,6 +14,10 @@ body {
     --bs-btn-color: #003370;
 }
 
+.border-primary {
+    border-color: #003370 !important;
+}
+
 .content {
     min-height: 65vh;
     width: 100%;
@@ -68,7 +72,7 @@ label{
     font-size: 14px;
 }
 
-.form-control{
+.form-control, .form-select{
     font-size: 13px;
 }
 
@@ -97,12 +101,6 @@ label{
     .content{
         margin: 0px !important;
         width: 100%;
-    }
-}
-
-@media screen and (max-width: 992px) {
-    .welcome-section {
-        gap: 0px !important;
     }
 }
 

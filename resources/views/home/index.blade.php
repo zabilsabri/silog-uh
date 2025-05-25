@@ -1,4 +1,6 @@
 @extends('layouts.app')
+@section('sidebar', 'True')
+@section('title', 'Beranda')
 
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">

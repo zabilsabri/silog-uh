@@ -1,4 +1,6 @@
 @extends('layouts.app')
+@section('sidebar', 'True')
+@section('title', 'Skripsi')
 
 @section('content')
     <div class="m-3">

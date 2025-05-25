@@ -7,6 +7,13 @@ body {
     --bs-btn-border-color: #003370;
 }
 
+.btn-outline-primary {
+    --bs-btn-border-color: #003370;
+    --bs-btn-hover-bg: #003370;
+    --bs-btn-hover-border-color: #003370;
+    --bs-btn-color: #003370;
+}
+
 .content {
     min-height: 65vh;
     width: 100%;
@@ -62,7 +69,7 @@ label{
 }
 
 .form-control{
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .table-container {

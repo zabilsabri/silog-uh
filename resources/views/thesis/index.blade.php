@@ -15,7 +15,7 @@
             @foreach($thesis as $thesis_list)
             <p>
                 {{ $thesis_list->user->last_name }}, {{ $thesis_list->user->first_name }} ({{ $thesis_list->year }}) 
-                <a class="fst-italic" href="#">{{ $thesis_list->title }}</a> 
+                <a class="fst-italic" href="{{ route('thesis.detail', ['id' => $thesis_list->id]) }}">{{ $thesis_list->title }}</a> 
                 ({{ $thesis_list->user->username }})
             </p>
             @endforeach

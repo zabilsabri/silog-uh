@@ -13,4 +13,10 @@ class ThesisController extends Controller
         $thesis = Thesis::paginate(7);
         return view('thesis.index', compact('thesis'));
     }
+
+    public function detail($id)
+    {
+        $thesis = Thesis::findOrFail($id);
+        return view('thesis.detail', compact('thesis'));
+    }
 }

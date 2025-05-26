@@ -78,10 +78,10 @@
             <div class="mb-3">
                 <label class="form-label">Penguji:</label>
                 <ol>
-                    @forelse (Auth::user()->thesis->examiner as $examinerList)
+                    @forelse (Auth::user()->thesis->examiner ?? [] as $examinerList)
                         <li><p class="mb-1">{{ $examinerList->name }}</p></li>
                     @empty
-                        <li><p class="mb-1">Tidak ada penguji yang ditambahkan</p></li>
+                        <li><p class="mb-1">-</p></li>
                     @endforelse
                 </ol>
             </div>
@@ -91,7 +91,7 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">File Skripsi:</label>
-                <a href="{{ asset('storage/'.Auth::user()->thesis->file_path) }}">{{ Auth::user()->thesis->file_name ?? '-' }}</a>
+                <a href="{{ asset('storage/'.Auth::user()?->thesis?->file_path ?? '') }}">{{ Auth::user()->thesis->file_name ?? '' }}</a>
             </div>
         </div>
     </div>

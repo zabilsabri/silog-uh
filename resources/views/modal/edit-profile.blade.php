@@ -38,7 +38,7 @@
                 <div class="mb-3">
                     <label for="formGroupExampleInput2" class="form-label">Penguji<span class="text-danger"> *</span></label>
                     <ol id="examiner-list-head">
-                        @foreach(Auth::user()->thesis->examiner as $examinerList)
+                        @foreach(Auth::user()->thesis->examiner ?? [] as $examinerList)
                             <li class="examiner-list">
                                 <input type="text" class="form-control mb-2" id="formGroupExampleInput2" name="examiners[]" value="{{ $examinerList->name }}" placeholder="Masukkan Nama Penguji">
                             </li>
@@ -51,7 +51,7 @@
                 <div class="mb-3">
                     <label for="formGroupExampleInput2" class="form-label">File Skripsi<span class="text-danger"> *</span></label>
                     <input type="file" name="file" class="form-control" id="inputGroupFile02">
-                    <small>File yang sudah diunggah: <a href="{{ asset('storage/'.Auth::user()->thesis->file_path) }}">{{ Auth::user()->thesis->file_name ?? '-' }}</a></small>
+                    <small>File yang sudah diunggah: <a href="{{ asset('storage/'.Auth::user()?->thesis?->file_path ?? '') }}">{{ Auth::user()->thesis->file_name ?? '' }}</a></small>
                 </div>
         </div>
         <div class="modal-footer">

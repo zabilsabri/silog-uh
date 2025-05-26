@@ -12,13 +12,19 @@
         </div>
         <hr>
         <div class="font-smaller">
-            <p>Sabri, Zabil (2025) <a class="fst-italic" href="#">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem, vero? Aspernatur, porro saepe quasi distinctio est iure optio labore? Distinctio fugit, sed sequi modi vel neque! Dolorum quidem adipisci magni.</a> (H071211016)</p>
-            <p>Sabri, Zabil (2025) <a class="fst-italic" href="#">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem, vero? Aspernatur, porro saepe quasi distinctio est iure optio labore? Distinctio fugit, sed sequi modi vel neque! Dolorum quidem adipisci magni.</a> (H071211016)</p>
-            <p>Sabri, Zabil (2025) <a class="fst-italic" href="#">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem, vero? Aspernatur, porro saepe quasi distinctio est iure optio labore? Distinctio fugit, sed sequi modi vel neque! Dolorum quidem adipisci magni.</a> (H071211016)</p>
-            <p>Sabri, Zabil (2025) <a class="fst-italic" href="#">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem, vero? Aspernatur, porro saepe quasi distinctio est iure optio labore? Distinctio fugit, sed sequi modi vel neque! Dolorum quidem adipisci magni.</a> (H071211016)</p>
-            <p>Sabri, Zabil (2025) <a class="fst-italic" href="#">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem, vero? Aspernatur, porro saepe quasi distinctio est iure optio labore? Distinctio fugit, sed sequi modi vel neque! Dolorum quidem adipisci magni.</a> (H071211016)</p>
-            <p>Sabri, Zabil (2025) <a class="fst-italic" href="#">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem, vero? Aspernatur, porro saepe quasi distinctio est iure optio labore? Distinctio fugit, sed sequi modi vel neque! Dolorum quidem adipisci magni.</a> (H071211016)</p>
-            <p>Sabri, Zabil (2025) <a class="fst-italic" href="#">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem, vero? Aspernatur, porro saepe quasi distinctio est iure optio labore? Distinctio fugit, sed sequi modi vel neque! Dolorum quidem adipisci magni.</a> (H071211016)</p>
+            @foreach($thesis as $thesis_list)
+            <p>
+                {{ $thesis_list->user->last_name }}, {{ $thesis_list->user->first_name }} ({{ $thesis_list->year }}) 
+                <a class="fst-italic" href="#">{{ $thesis_list->title }}</a> 
+                ({{ $thesis_list->user->username }})
+            </p>
+            @endforeach
+            @if($thesis->isEmpty())
+                <p class="text-muted">Tidak ada data skripsi yang ditemukan.</p>
+            @endif
+            <div class="d-flex justify-content-center mt-4">
+                {{ $thesis->links() }}
+            </div>
         </div>
     </div>
     @include('modal.filter-thesis')

@@ -7,7 +7,10 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Profile\ProfileController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
 Route::get('/thesis', [ThesisController::class, 'index'])->name('thesis');
+Route::get('/thesis/{id}', [ThesisController::class, 'detail'])->name('thesis.detail');
+
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::get('/profile', [ProfileController::class, 'index'])->middleware('auth')->name('profile');
 Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');

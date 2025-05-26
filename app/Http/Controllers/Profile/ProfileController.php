@@ -12,6 +12,8 @@ use App\Models\Thesis;
 use App\Models\Examiner;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Database\QueryException;
 
 class ProfileController extends Controller
 {
@@ -110,10 +112,18 @@ class ProfileController extends Controller
             // Update examiners
             DB::table('examiners')->where('thesis_id', $existingThesis->id)->delete();
             foreach ($request->input('examiners', []) as $examinerData) {
-                $examiner = new Examiner();
-                $examiner->thesis_id = $existingThesis->id;
-                $examiner->name = $examinerData;
-                $examiner->save();
+                try {
+                    $examiner = new Examiner();
+                    $examiner->thesis_id = $existingThesis->id;
+                    $examiner->name = $examinerData;
+                    $examiner->save();
+                } catch (QueryException  $th) {
+                    if ($th->getCode() === '23000' && str_contains($th->getMessage(), 'Column \'name\' cannot be null')) {
+                        Log::warning('Skipped inserting examiner due to null name.');
+                    } else {
+                        throw $th;
+                    }
+                }
             }
         }
 

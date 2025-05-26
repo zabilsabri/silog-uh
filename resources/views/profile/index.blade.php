@@ -10,13 +10,6 @@
         display: inline-block;
     }
 
-    .profile-picture-custom {
-        width: 230px;
-        height: 300px;
-        object-fit: cover;
-        transition: opacity 0.3s ease;
-    }
-
     .overlay {
         position: absolute;
         top: 0;
@@ -63,46 +56,43 @@
         </div>
 
         <div class="col-lg-7">
-            <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Nama:</label>
-                        <p class="m-0">{{ (Auth::user()->first_name && Auth::user()->last_name) ? Auth::user()->first_name . " " . Auth::user()->last_name : '-' }}</p>
-                    </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Nama:</label>
+                    <p class="m-0">{{ (Auth::user()->first_name && Auth::user()->last_name) ? Auth::user()->first_name . " " . Auth::user()->last_name : '-' }}</p>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">NIM:</label>
-                    <input type="text" class="form-control" value="{{ Auth::user()->username }}" disabled>
-                </div>
-                <hr>
-                <div class="mb-3">
-                    <label class="form-label">Judul Skripsi:</label>
-                    <p class="m-0">"{{ Auth::user()->thesis->title ?? '-' }}"</p>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Pembimbing Utama:</label>
-                    <p class="m-0">{{ Auth::user()->thesis->supervisor ?? '-' }}</p>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Penguji:</label>
-                    <ol>
-                        @forelse (Auth::user()->thesis->examiner as $examinerList)
-                            <li><p class="mb-1">{{ $examinerList->name }}</p></li>
-                        @empty
-                            <li><p class="mb-1">Tidak ada penguji yang ditambahkan</p></li>
-                        @endforelse
-                    </ol>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Tahun:</label>
-                    <p class="m-0">{{ Auth::user()->thesis->year ?? '-' }}</p>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">File Skripsi:</label>
-                    <a href="{{ asset('storage/'.Auth::user()->thesis->file_path) }}">{{ Auth::user()->thesis->file_name ?? '-' }}</a>
-                </div>
-            </form>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">NIM:</label>
+                <input type="text" class="form-control" value="{{ Auth::user()->username }}" disabled>
+            </div>
+            <hr>
+            <div class="mb-3">
+                <label class="form-label">Judul Skripsi:</label>
+                <p class="m-0">"{{ Auth::user()->thesis->title ?? '-' }}"</p>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Pembimbing Utama:</label>
+                <p class="m-0">{{ Auth::user()->thesis->supervisor ?? '-' }}</p>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Penguji:</label>
+                <ol>
+                    @forelse (Auth::user()->thesis->examiner as $examinerList)
+                        <li><p class="mb-1">{{ $examinerList->name }}</p></li>
+                    @empty
+                        <li><p class="mb-1">Tidak ada penguji yang ditambahkan</p></li>
+                    @endforelse
+                </ol>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Tahun:</label>
+                <p class="m-0">{{ Auth::user()->thesis->year ?? '-' }}</p>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">File Skripsi:</label>
+                <a href="{{ asset('storage/'.Auth::user()->thesis->file_path) }}">{{ Auth::user()->thesis->file_name ?? '-' }}</a>
+            </div>
         </div>
     </div>
 </div>

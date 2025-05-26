@@ -29,6 +29,13 @@ body {
     border-radius: 50%;
 }
 
+.profile-picture-custom {
+    width: 230px;
+    height: 300px;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+}
+
 .detail-description p {
     margin: 0px;
 }

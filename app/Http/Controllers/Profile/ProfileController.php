@@ -126,10 +126,14 @@ class ProfileController extends Controller
             'profile_picture' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
+        $user = Auth::user();
+        if ($user->profile_picture) {
+            Storage::disk('public')->delete($user->profile_picture);
+        }
+
         $file = $request->file('profile_picture');
         $path = $file->store('profile_pictures', 'public'); // Store in storage/app/public/profile_pictures
 
-        $user = Auth::user();
         $user->profile_picture = $path;
         $user->save();
 

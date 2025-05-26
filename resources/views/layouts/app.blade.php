@@ -59,8 +59,14 @@
     
     @if(session('success'))
         toastr.success('{{ session('success') }}', 'Success');
+        @php
+            session()->forget('success');
+        @endphp
     @elseif(session('error'))
         toastr.error('{{ session('error') }}', 'Error');
+        @php
+            session()->forget('error');
+        @endphp
     @endif
 </script>
 </html>

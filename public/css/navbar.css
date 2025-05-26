@@ -1,0 +1,9 @@
+@media screen and (max-width: 768px) {
+    .right-navbar {
+        display: none !important;
+    }
+
+    .navbar-toggler{
+        display: block !important;
+    }
+}

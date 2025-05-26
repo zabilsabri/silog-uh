@@ -6,7 +6,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form method="GET" class="mb-4 flex gap-2">
+            <form method="GET" action="{{ route('thesis') }}" class="mb-4 flex gap-2">
             <div class="mb-3 row">
                 <label for="title" class="col-sm-3 col-form-label">Judul</label>
                 <div class="col-sm-9">
@@ -22,8 +22,8 @@
             <div class="mb-3 row">
                 <label for="from_date" class="col-sm-3 col-form-label">Tahun</label>
                 <div class="col-sm-9">
-                    <select name="year_end" class="form-control" required>
-                        <option value="" selected>-- Pilih Tahun</option>
+                    <select name="year" class="form-control">
+                        <option value="{{ request('year') }}" selected>-- {{ request('year') ?? 'Pilih Tahun' }}</option>
                         @for ($year = date('Y'); $year >= 2021; $year--)
                             <option value="{{ $year }}">{{ $year }}</option>
                         @endfor
@@ -32,8 +32,9 @@
             </div> 
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-sm btn-primary">Cari</button>
+            <button type="submit" class="btn btn-sm btn-primary">Cari</button>
         </div>
+        </form>
     </div>
   </div>
 </div>

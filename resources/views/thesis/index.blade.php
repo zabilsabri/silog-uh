@@ -5,10 +5,23 @@
 @section('content')
     <div class="m-3">
         <h3>Daftar Skripsi:</h3>
+        <form action="{{ route('thesis') }}" method="GET">
         <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Masukkan Judul atau Nama Penulis" aria-label="Masukkan Judul atau Nama Penulis" aria-describedby="button-addon2">
-            <button class="btn btn-sm btn-outline-secondary" type="button" style="padding-top: 10px;" id="button-addon2"><i class="fi fi-rs-search"></i></button>
-            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="button" id="button-addon2">Filter</button>
+            <input type="text" name="search" class="form-control" placeholder="Masukkan Judul atau Nama Penulis" aria-label="Masukkan Judul atau Nama Penulis" aria-describedby="button-addon2" value="{{ request('search') }}">
+            
+            <button class="btn btn-sm btn-outline-secondary" type="submit" id="button-addon2">
+                <i class="fi fi-rs-search"></i>
+            </button>
+
+            <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Filter
+            </button>
+
+            @if(request()->has('search') || request()->has('title') || request()->has('author') || request()->has('year'))
+                <a href="{{ route('thesis') }}" class="btn btn-sm btn-outline-danger">
+                    Clear Filter
+                </a>
+            @endif
         </div>
         <hr>
         <div class="font-smaller">

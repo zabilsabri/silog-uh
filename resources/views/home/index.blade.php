@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="d-grid gap-2 d-md-block">
-            <button class="btn btn-sm btn-primary" type="button">Unggah Skripsi</button>
+                <a class="btn btn-sm btn-primary" href="{{ route('profile') }}" role="button">Unggah Skripsi</a>
         </div>
     </div>
 @endsection

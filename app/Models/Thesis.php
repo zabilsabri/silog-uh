@@ -24,6 +24,14 @@ class Thesis extends Model
         'file_path',
         'file_name',
         'user_id',
+        'abstract',
+        'source_code_path',
+        'source_code_name',
+        'file_data_source_path',
+        'file_data_source_name',
+        'link_data_source',
+        'created_at',
+        'updated_at',
     ];
 
     /**

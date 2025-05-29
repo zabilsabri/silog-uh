@@ -4,7 +4,10 @@
 
 @section('content')
     <div class="m-3">
-        <h3>Data Mahasiswa</h3>
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h3>Data Mahasiswa</h3>
+            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">+ Tambah</button>        
+        </div>
         <form action="{{ route('students.admin') }}" method="GET" class="d-flex">
         <div class="input-group mb-3">
             <input type="text" name="search" class="form-control" placeholder="Masukkan Nama atau NIM" aria-label="Masukkan Judul atau Nama Penulis" aria-describedby="button-addon2" value="{{ request('search') }}">
@@ -41,7 +44,7 @@
                             <th scope="row" class="text-center" style="width: 50px">{{ $index + 1 }}</th>
                             <td>{{ ($user->first_name && $user->last_name) ? $user->first_name . " " . $user->last_name : '-' }}</td>
                             <td>{{ $user->username }}</td>
-                            @if($user->thesis)
+                            @if(!empty($user->thesis))
                                 <td><h6><span class="badge text-bg-success">Sudah Upload</span></h6></td>
                             @else
                                 <td><h6><span class="badge text-bg-danger">Belum Upload</span></h6></td>
@@ -63,9 +66,10 @@
                 </tbody>
             </table>
         </div>
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-end">
             {{ $users->links() }}
         </div>
     </div>
     @include('modal.filter-student')
+    @include('modal.add-user')
 @endsection

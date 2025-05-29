@@ -27,5 +27,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/students/{id}', [StudentController::class, 'detail'])->name('students.detail.admin');
 
     Route::Delete('/students/delete/{id}', [StudentController::class, 'delete'])->name('students.delete.admin');
+    Route::post('/students/add', [StudentController::class, 'add'])->name('students.create.admin');
 
 });

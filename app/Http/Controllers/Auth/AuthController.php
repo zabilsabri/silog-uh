@@ -21,6 +21,9 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
+            if(Auth::user()->role === 'admin') {
+                return redirect()->route('home-admin')->with('success', 'Login Berhasil!');
+            }
             return redirect()->route('profile')->with('success', 'Login Berhasil!');
         }
 

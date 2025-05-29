@@ -39,7 +39,7 @@
             </div>
             <div class="col-md-6">
                 <div class="border text-center p-3 rounded-2">
-                    <h6>Upload Terbaru</h6>
+                    <h6>Aktivitas Terbaru</h6>
                     @foreach($newThesis as $newThesis_list)
                         <div class="card font-smaller mb-2">
                             <div class="card-body text-start">

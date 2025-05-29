@@ -32,7 +32,16 @@
 
 <div class="m-3">
     <h3>Profil</h3>
-    <div class="welcome-section row font-small gap-3">
+    @if ($errors->any())
+        <div class="alert alert-danger font-smaller">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    <div class="welcome-section row font-small gap-3" id="post-{{ Auth::user()->thesis->id ?? '' }}">
         <div class="col-lg-4 home-text">
             <div class="d-flex flex-column text-center">
                 <div class="align-items-center profile-picture-wrapper">
@@ -46,7 +55,7 @@
                 </div>
 
                 <button type="button" id="uploadProfile" class="btn btn-sm btn-outline-primary mt-2">Ubah Foto</button>
-                <button type="button" class="btn btn-sm btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#editProfile">Edit Profil</button>
+                <button type="button" class="btn btn-sm btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#editProfile">Upload Skripsi</button>
 
                 <form id="uploadForm" action="{{ route('profile.upload') }}" method="POST" enctype="multipart/form-data" style="display: none;">
                     @csrf
@@ -69,7 +78,9 @@
             <hr>
             <div class="mb-3">
                 <label class="form-label">Judul Skripsi:</label>
-                <p class="m-0">"{{ Auth::user()->thesis->title ?? '-' }}"</p>
+                <p class="m-0">
+                    {{ Auth::user()->thesis?->title ? '"' . Auth::user()->thesis->title . '"' : '-' }}
+                </p>            
             </div>
             <div class="mb-3">
                 <label class="form-label">Pembimbing Utama:</label>
@@ -77,13 +88,15 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Penguji:</label>
+                @if(!empty(Auth::user()->thesis->examiner))
                 <ol>
-                    @forelse (Auth::user()->thesis->examiner ?? [] as $examinerList)
+                    @foreach (Auth::user()->thesis->examiner as $examinerList)
                         <li><p class="mb-1">{{ $examinerList->name }}</p></li>
-                    @empty
-                        <li><p class="mb-1">-</p></li>
-                    @endforelse
+                    @endforeach
                 </ol>
+                @else
+                    <p class="mb-1">-</p>
+                @endif
             </div>
             <div class="mb-3">
                 <label class="form-label">Tahun:</label>
@@ -91,7 +104,42 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">File Skripsi:</label>
-                <a href="{{ asset('storage/'.Auth::user()?->thesis?->file_path ?? '') }}">{{ Auth::user()->thesis->file_name ?? '' }}</a>
+                @if(!empty(Auth::user()->thesis->file_path))
+                    <a href="{{ asset('storage/'.Auth::user()->thesis->file_path) }}">{{ Auth::user()->thesis->file_name }}</a>
+                @else
+                    <p class="mb-1">-</p>
+                @endif
+            </div>
+            @if(!empty(Auth::user()->thesis->source_code_path) && !empty(Auth::user()->thesis->source_code_name))
+            <div class="mb-3">
+                <label class="form-label">Source Code:</label>
+                <a href="{{ asset('storage/'.Auth::user()->thesis->source_code_path) }}">{{ Auth::user()->thesis->source_code_name }}</a>
+            </div>
+            @endif
+            @if(!empty(Auth::user()->thesis->file_data_source_path) && !empty(Auth::user()->thesis->file_data_source_name))
+            <div class="mb-3">
+                <label class="form-label">Sumber Data:</label>
+                <a href="{{ asset('storage/'.Auth::user()->thesis->file_data_source_path) }}">{{ Auth::user()->thesis->file_data_source_name }}</a>
+            </div>
+            @endif
+            @if(!empty(Auth::user()->thesis->link_data_source))
+            <div class="mb-3">
+                <label class="form-label">Link Sumber Data:</label>
+                <a href="{{ Auth::user()->thesis->link_data_source }}">{{ Auth::user()->thesis->link_data_source }}</a>
+            </div>
+            @endif
+            <div class="mb-3 font-smaller" style="text-align: justify;" >
+                <label class="form-label">Abstrak:</label>
+                @if(!empty(Auth::user()->thesis->abstract))
+                    @if(strlen(strip_tags(Auth::user()->thesis->abstract)) > 250)
+                        <p class="card-text short-description m-0">{{ Str::limit(strip_tags(Auth::user()->thesis->abstract), 250, '') }}<span class="ellipsis-readmore" data-post-id="{{ Auth::user()->thesis->id }}">... Read More</span></p>
+                    @else
+                        <span class="card-text">{{ Auth::user()->thesis->abstract }}</span>
+                    @endif
+                    <p class="full-description font d-none">{{ Auth::user()->thesis->abstract ?? '-' }}</p>
+                @else
+                    <p class="card-text">-</p>
+                @endif
             </div>
         </div>
     </div>
@@ -117,4 +165,5 @@
         }
     });
 </script>
+<script src="{{ asset('js/showmore.js') }}" ></script>
 @endsection

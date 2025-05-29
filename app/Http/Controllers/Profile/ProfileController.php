@@ -25,99 +25,143 @@ class ProfileController extends Controller
     public function updateProfile(Request $request)
     {
         $user = User::find(auth()->id());
-
-        // Check if a thesis already exists for the user
         $existingThesis = DB::table('thesis')->where('user_id', $user->id)->first();
 
-        // Build validation rules
         $rules = [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'supervisor' => 'required|string|max:255',
             'thesis_title' => 'required|string|max:255',
             'year' => 'required|string|max:4',
+            'thesis_abstract' => 'required|string',
+            'file_source_code' => 'nullable|file|mimes:zip',
+            'file_data_source' => 'nullable|file|mimes:csv,xlsx,xls',
+            'file_thesis' => $existingThesis
+                ? 'nullable|file|mimes:pdf,doc,docx'
+                : 'required|file|mimes:pdf,doc,docx',
         ];
 
-        // Only require file if thesis doesn't already exist
-        if (!$existingThesis) {
-            $rules['file'] = 'required|file|mimes:pdf';
-        } else {
-            $rules['file'] = 'nullable|file|mimes:pdf';
-        }
+        $validated = $request->validate($rules);
 
-        $request->validate($rules);
+        $user->update([
+            'first_name' => $validated['first_name'],
+            'last_name' => $validated['last_name'],
+        ]);
 
-        // Update user info
-        $user->first_name = $request->input('first_name');
-        $user->last_name = $request->input('last_name');
-        $user->save();
+        $folderName = Auth::user()->username . '_' . $validated['first_name'] . ' ' . $validated['last_name'];
 
-        // If no existing thesis, insert a new one
         if (!$existingThesis) {
             $thesis_id = (string) Str::uuid();
 
-            $filePath = null;
-            $fileName = null;
-            if ($request->hasFile('file')) {
-                $filePath = $request->file('file')->storeAs('thesis_files', time() . '_' . $request->file('file')->getClientOriginalName(), 'public');
-                $fileName = $request->file('file')->getClientOriginalName();
+            $fileThesisPath = $fileThesisName = null;
+            if ($request->hasFile('file_thesis')) {
+                $fileThesisName = $request->file('file_thesis')->getClientOriginalName();
+                $fileThesisPath = $request->file('file_thesis')->storeAs($folderName, 'skripsi_' . Auth::user()->username . '.' . $request->file('file_thesis')->getClientOriginalExtension(), 'public');
+            }
+
+            $sourceCodePath = $sourceCodeName = null;
+            if ($request->hasFile('file_source_code')) {
+                $sourceCodeName = $request->file('file_source_code')->getClientOriginalName();
+                $sourceCodePath = $request->file('file_source_code')->storeAs($folderName, 'kode_' . Auth::user()->username . '.' . $request->file('file_source_code')->getClientOriginalExtension(), 'public');
+            }
+
+            $dataSourcePath = $dataSourceName = null;
+            if ($request->hasFile('file_data_source')) {
+                $dataSourceName = $request->file('file_data_source')->getClientOriginalName();
+                $dataSourcePath = $request->file('file_data_source')->storeAs($folderName, 'data_' . Auth::user()->username . '.' . $request->file('file_data_source')->getClientOriginalExtension(), 'public');
             }
 
             DB::table('thesis')->insert([
                 'id' => $thesis_id,
                 'user_id' => $user->id,
-                'title' => $request->input('thesis_title'),
-                'supervisor' => $request->input('supervisor'),
-                'year' => $request->input('year'),
-                'file_path' => $filePath,
-                'file_name' => $fileName,
+                'abstract' => $validated['thesis_abstract'],
+                'title' => $validated['thesis_title'],
+                'supervisor' => $validated['supervisor'],
+                'year' => $validated['year'],
+                'file_path' => $fileThesisPath,
+                'file_name' => $fileThesisName,
+                'source_code_path' => $sourceCodePath,
+                'source_code_name' => $sourceCodeName,
+                'file_data_source_path' => $dataSourcePath,
+                'file_data_source_name' => $dataSourceName,
+                'link_data_source' => $request->input('link_data_source'),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
 
-            // Insert examiners if provided
-            $examiners = $request->input('examiners', []);
-            foreach ($examiners as $examinerData) {
-                $examiner = new Examiner();
-                $examiner->thesis_id = $thesis_id;
-                $examiner->name = $examinerData;
-                $examiner->save();
-
+            foreach ($request->input('examiners', []) as $examinerData) {
+                try {
+                    Examiner::create([
+                        'thesis_id' => $thesis_id,
+                        'name' => $examinerData,
+                    ]);
+                } catch (QueryException $th) {
+                    if ($th->getCode() === '23000' && str_contains($th->getMessage(), 'Column \'name\' cannot be null')) {
+                        Log::warning('Skipped inserting examiner due to null name.');
+                    } else {
+                        throw $th;
+                    }
+                }
             }
         } else {
-            // Update existing thesis
-            $filePath = $existingThesis->file_path;
-            $fileName = $existingThesis->file_name;
+            $fileThesisPath = $existingThesis->file_path;
+            $fileThesisName = $existingThesis->file_name;
 
-            if ($request->hasFile('file')) {
-                // Delete old file if it exists
-                if ($filePath) {
-                    Storage::disk('public')->delete($filePath);
+            if ($request->hasFile('file_thesis')) {
+                if ($fileThesisPath) {
+                    Storage::disk('public')->delete($fileThesisPath);
                 }
-                $filePath = $request->file('file')->storeAs('thesis_files', time() . '_' . $request->file('file')->getClientOriginalName(), 'public');
-                $fileName = $request->file('file')->getClientOriginalName();
+
+                $fileThesisName = $request->file('file_thesis')->getClientOriginalName();
+                $fileThesisPath = $request->file('file_thesis')->storeAs($folderName, 'skripsi_' . Auth::user()->username . '.' . $request->file('file_thesis')->getClientOriginalExtension(), 'public');
+            }
+
+            $sourceCodePath = $existingThesis->source_code_path;
+            $sourceCodeName = $existingThesis->source_code_name;
+            if ($request->hasFile('file_source_code')) {
+                if ($sourceCodePath) {
+                    Storage::disk('public')->delete($sourceCodePath);
+                }
+
+                $sourceCodeName = $request->file('file_source_code')->getClientOriginalName();
+                $sourceCodePath = $request->file('file_source_code')->storeAs($folderName, 'kode_' . Auth::user()->username . '.' . $request->file('file_source_code')->getClientOriginalExtension(), 'public');
+            }
+
+            $dataSourcePath = $existingThesis->file_data_source_path;
+            $dataSourceName = $existingThesis->file_data_source_name;
+            if ($request->hasFile('file_data_source')) {
+                if ($dataSourcePath) {
+                    Storage::disk('public')->delete($dataSourcePath);
+                }
+
+                $dataSourceName = $request->file('file_data_source')->getClientOriginalName();
+                $dataSourcePath = $request->file('file_data_source')->storeAs($folderName, 'data_' . Auth::user()->username . '.' . $request->file('file_data_source')->getClientOriginalExtension(), 'public');
             }
 
             DB::table('thesis')
                 ->where('id', $existingThesis->id)
                 ->update([
-                    'title' => $request->input('thesis_title'),
-                    'supervisor' => $request->input('supervisor'),
-                    'year' => $request->input('year'),
-                    'file_path' => $filePath,
-                    'file_name' => $fileName,
+                    'title' => $validated['thesis_title'],
+                    'supervisor' => $validated['supervisor'],
+                    'year' => $validated['year'],
+                    'file_path' => $fileThesisPath,
+                    'file_name' => $fileThesisName,
+                    'source_code_path' => $sourceCodePath,
+                    'source_code_name' => $sourceCodeName,
+                    'file_data_source_path' => $dataSourcePath,
+                    'file_data_source_name' => $dataSourceName,
+                    'link_data_source' => $request->input('link_data_source'),
                     'updated_at' => now(),
                 ]);
 
-            // Update examiners
             DB::table('examiners')->where('thesis_id', $existingThesis->id)->delete();
             foreach ($request->input('examiners', []) as $examinerData) {
                 try {
-                    $examiner = new Examiner();
-                    $examiner->thesis_id = $existingThesis->id;
-                    $examiner->name = $examinerData;
-                    $examiner->save();
-                } catch (QueryException  $th) {
+                    Examiner::create([
+                        'thesis_id' => $existingThesis->id,
+                        'name' => $examinerData,
+                    ]);
+                } catch (QueryException $th) {
                     if ($th->getCode() === '23000' && str_contains($th->getMessage(), 'Column \'name\' cannot be null')) {
                         Log::warning('Skipped inserting examiner due to null name.');
                     } else {
@@ -142,7 +186,7 @@ class ProfileController extends Controller
         }
 
         $file = $request->file('profile_picture');
-        $path = $file->store('profile_pictures', 'public'); // Store in storage/app/public/profile_pictures
+        $path = $file->store('profile_pictures', 'public');
 
         $user->profile_picture = $path;
         $user->save();

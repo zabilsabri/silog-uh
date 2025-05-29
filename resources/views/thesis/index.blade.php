@@ -12,6 +12,7 @@
             <button class="btn btn-sm btn-outline-secondary" type="submit" id="button-addon2">
                 <i class="fi fi-rs-search"></i>
             </button>
+            </form>
 
             <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                 Filter

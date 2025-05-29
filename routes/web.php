@@ -5,6 +5,7 @@ use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\Thesis\ThesisController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Profile\ProfileController;
+use App\Http\Controllers\Student\StudentController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -18,3 +19,13 @@ Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth')->na
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/profile/update', [ProfileController::class, 'updateProfile'])->middleware('auth')->name('profile.update');
 Route::post('/upload-profile', [ProfileController::class, 'upload'])->middleware('auth')->name('profile.upload');
+
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+
+    Route::get('/', [HomeController::class, 'adminIndex'])->name('home-admin');
+    Route::get('/students', [StudentController::class, 'index'])->name('students.admin');
+    Route::get('/students/{id}', [StudentController::class, 'detail'])->name('students.detail.admin');
+
+    Route::Delete('/students/delete/{id}', [StudentController::class, 'delete'])->name('students.delete.admin');
+
+});

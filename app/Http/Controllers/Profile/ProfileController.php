@@ -191,7 +191,7 @@ class ProfileController extends Controller
         $user->profile_picture = $path;
         $user->save();
 
-        return back()->with('success', 'Profile picture updated!');
+        return back()->with('success', 'Foto Profil Berhasil Diperbarui!');
     }
 
 

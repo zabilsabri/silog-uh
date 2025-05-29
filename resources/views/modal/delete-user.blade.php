@@ -9,7 +9,7 @@
             <form method="POST" action="{{ route('students.delete.admin', $user->id) }}" class="mb-4">
                 @csrf
                 @method('DELETE')
-                <p>Apakah Anda yakin ingin menghapus mahasiswa <strong>{{ $user->name }}</strong>?</p>
+                <p>Apakah Anda yakin ingin menghapus mahasiswa ini?</p>
         </div>
         <div class="modal-footer">
             <button type="submit" class="btn btn-sm btn-danger">Hapus</button>

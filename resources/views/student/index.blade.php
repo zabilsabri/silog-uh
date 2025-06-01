@@ -6,9 +6,14 @@
     <div class="m-3">
         <div class="d-flex justify-content-between align-items-center mb-2">
             <h3>Data Mahasiswa</h3>
-            <div class="d-grid gap-1 d-md-flex justify-content-md-end">
-                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal"><i class="fi fi-rr-user-add"></i> Tambah</button>        
-                <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addMassUserModal"><i class="fi fi-rr-users-medical"></i> Tambah Massal</button>
+            <div class="dropdown">
+                <button class="btn btn-sm btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    + Tambah
+                </button>
+                <ul class="dropdown-menu font-smaller">
+                    <li><a class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#addUserModal"><i class="fi fi-rr-user-add"></i> Tambah</a></li>
+                    <li><a class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#addMassUserModal"><i class="fi fi-rr-users-medical"></i> Tambah Massal</a></li>
+                </ul>
             </div>
         </div>
         <form action="{{ route('students.admin') }}" method="GET" class="d-flex">

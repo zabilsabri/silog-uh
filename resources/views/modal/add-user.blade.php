@@ -6,9 +6,9 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form method="POST" action="{{ route('students.create.admin') }}" class="mb-4">
+            <form method="POST" action="{{ route('students.create.admin') }}" class="mb-3">
                 @csrf
-                <div class="mb-4">
+                <div>
                     <label for="formGroupExampleInput2" class="form-label">NIM<span class="text-danger"> *</span></label>
                     <input type="text" name="nim" class="form-control" id="formGroupExampleInput2" placeholder="Masukkan NIM">
                 </div>

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use App\Imports\UsersImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StudentController extends Controller
 {
@@ -56,7 +58,7 @@ class StudentController extends Controller
         }
 
         // Paginate
-        $users = $query->paginate(10);
+        $users = $query->paginate(10)->withQueryString();
 
         return view('student.index', compact('users'));
     }
@@ -84,5 +86,23 @@ class StudentController extends Controller
 
         return redirect()->route('students.admin')->with('success', 'Mahasiswa berhasil ditambahkan');
 
+    }
+
+    public function addMass(Request $request) {
+        $request->validate([
+            'fileUser' => 'required|mimes:xls,xlsx'
+        ]);
+
+        try {
+            DB::beginTransaction();
+            Excel::import(new UsersImport, $request->file('fileUser'));
+            DB::commit();
+
+            return back()->with('success', 'Data user berhasil ditambahkan!');
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            
+            return back()->with('error', 'Gagal menambahkan data: ' . $e->getMessage());
+        }
     }
 }

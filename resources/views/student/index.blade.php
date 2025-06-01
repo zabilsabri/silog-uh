@@ -6,7 +6,10 @@
     <div class="m-3">
         <div class="d-flex justify-content-between align-items-center mb-2">
             <h3>Data Mahasiswa</h3>
-            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">+ Tambah</button>        
+            <div class="d-grid gap-1 d-md-flex justify-content-md-end">
+                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal"><i class="fi fi-rr-user-add"></i> Tambah</button>        
+                <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addMassUserModal"><i class="fi fi-rr-users-medical"></i> Tambah Massal</button>
+            </div>
         </div>
         <form action="{{ route('students.admin') }}" method="GET" class="d-flex">
         <div class="input-group mb-3">
@@ -72,4 +75,5 @@
     </div>
     @include('modal.filter-student')
     @include('modal.add-user')
+    @include('modal.add-mass-user')
 @endsection

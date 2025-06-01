@@ -36,7 +36,7 @@
             @if($thesis->isEmpty())
                 <p class="text-muted">Tidak ada data skripsi yang ditemukan.</p>
             @endif
-            <div class="d-flex justify-content-center mt-4">
+            <div class="d-flex justify-content-end mt-4">
                 {{ $thesis->links() }}
             </div>
         </div>

@@ -1,5 +1,10 @@
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    height: 100%;
 }
 
 .btn-primary {
@@ -142,24 +147,9 @@ label{
     }
 }
 
-.loading-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.spinner {
-    width: 30px;
-    height: 30px;
-    border: 5px solid #ffffff;
-    border-top: 5px solid #3498db;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.footer {
+  background-color: white;
+  padding: 15px;
 }
 
 .ellipsis-readmore {

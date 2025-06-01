@@ -5,13 +5,6 @@
     --sidebar-bg: #ffffff;
     --sidebar-hover: #e6f0ff;
 }
-body {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-}
 .sidebar {
     height: fit-content;
     min-width: 200px;

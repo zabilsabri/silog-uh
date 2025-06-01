@@ -4,7 +4,7 @@
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
     <div class="container d-flex justify-content-center align-items-center">
-        <div class="card shadow-lg mt-5 p-4" style="width: 400px;">
+        <div class="card shadow-lg p-4" style="width: 400px;">
             <h3 class="text-center mb-4">Login</h3>
             <form action="{{ route('login.post') }}" method="POST">
                 @csrf

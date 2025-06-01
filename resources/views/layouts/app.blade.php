@@ -21,17 +21,30 @@
     <title>@yield('title', 'SILog - Sistem Informasi Skripsi')</title>
 </head>
 <body>
-    <div id="navbar-container" class="sticky-top">
-        @include('partials.navbar')
-    </div>
-    <div id="container" class="container d-flex flex-direction-row mt-3">
-        @hasSection('sidebar')
-            @include('partials.sidebar')
-        @endif
-        <div class="content bg-white p-4 rounded mb-5" style="margin-left: 220px; margin-right: 20px;">
-            @yield('content')
+
+    <div class="d-flex flex-column min-vh-100">
+        <!-- Sticky Navbar -->
+        <div id="navbar-container" class="sticky-top">
+            @include('partials.navbar')
         </div>
+
+        <!-- Page Content -->
+        <div id="container" class="container d-flex flex-row mt-3 flex-grow-1">
+            @hasSection('sidebar')
+                @include('partials.sidebar')
+            @endif
+
+            <div class="content bg-white p-4 rounded mb-5" style="margin-left: 220px; margin-right: 20px; width: 100%;">
+                @yield('content')
+            </div>
+        </div>
+
+        <!-- Footer pushed to bottom -->
+        <footer class="footer mt-auto text-center py-3 font-smaller">
+            © 2025 SiLog | SodraTech & LabSisfoUH
+        </footer>
     </div>
+
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 <script type="text/javascript" src="//code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -49,16 +49,13 @@ class StudentController extends Controller
                 ->select('users.*')
                 ->orderBy('users.created_at', 'desc');
         } else {
-            // normal Eloquent if not using raw join
-            $query = User::query()->where('role', 'user');
-
             if ($status == 'Sudah Upload') {
                 $query->whereHas('thesis');
             }
         }
 
         // Paginate
-        $users = $query->paginate(10)->withQueryString();
+        $users = $query->where('role', 'user')->paginate(10)->withQueryString();
 
         return view('student.index', compact('users'));
     }

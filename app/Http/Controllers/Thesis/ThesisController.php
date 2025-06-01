@@ -34,7 +34,7 @@ class ThesisController extends Controller
             $query->where('year', $year);
         }
 
-        $thesis = $query->paginate(7);
+        $thesis = $query->paginate(7)->withQueryString();;
         
         return view('thesis.index', compact('thesis'));
     }

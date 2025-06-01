@@ -29,4 +29,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::Delete('/students/delete/{id}', [StudentController::class, 'delete'])->name('students.delete.admin');
     Route::post('/students/add', [StudentController::class, 'add'])->name('students.create.admin');
 
+    Route::post('/student/add-mass', [StudentController::class, 'addMass'])->name('students.create.mass.admin');
+
 });

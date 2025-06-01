@@ -14,7 +14,9 @@
           </a>
           <ul class="dropdown-menu font-smaller">
             @if(Auth::check())
-            <li><a class="dropdown-item" href="{{ route('profile') }}">Profil</a></li>
+              @if(Auth::user()->role != 'admin')
+                <li><a class="dropdown-item" href="{{ route('profile') }}">Profil</a></li>
+              @endif
             <li><a class="dropdown-item text-danger" href="{{ route('logout') }}">Logout</a></li>
             @else
             <li><a class="dropdown-item" href="{{ route('login') }}">Login</a></li>
@@ -35,9 +37,17 @@
   </div>
   <div class="offcanvas-body p-0">
     <div class="list-group mt-2">
-      <a href="{{ route('home') }}" class="list-group-item list-group-item-action rounded-0 py-3 {{ request()->routeIs('home') ? 'active' : '' }}" aria-current="true">Beranda</a>
-      <a href="{{ route('thesis') }}" class="list-group-item list-group-item-action rounded-0 py-3 {{ request()->routeIs('thesis') ? 'active' : '' }}" aria-current="true">Skripsi</a>
-      <a href="{{ route('profile') }}" class="list-group-item list-group-item-action rounded-0 py-3 {{ request()->routeIs('profile') ? 'active' : '' }}" aria-current="true">Akun</a>
+      @if(Auth::check() && Auth::user()->role == 'admin')
+        <a href="{{ route('home-admin') }}" class="list-group-item list-group-item-action rounded-0 py-3 {{ request()->routeIs('home-admin') ? 'active' : '' }}" aria-current="true">Dashboard</a>
+        <a href="{{ route('students.admin') }}" class="list-group-item list-group-item-action rounded-0 py-3 {{ request()->routeIs('students.admin') ? 'active' : '' }}" aria-current="true">Mahasiswa</a>
+      @else
+        <a href="{{ route('home') }}" class="list-group-item list-group-item-action rounded-0 py-3 {{ request()->routeIs('home') ? 'active' : '' }}" aria-current="true">Beranda</a>
+      @endif
+        <a href="{{ route('thesis') }}" class="list-group-item list-group-item-action rounded-0 py-3 {{ request()->routeIs('thesis') ? 'active' : '' }}" aria-current="true">Skripsi</a>
+      @if(Auth::check() && Auth::user()->role == 'admin')
+      @else
+        <a href="{{ route('profile') }}" class="list-group-item list-group-item-action rounded-0 py-3 {{ request()->routeIs('profile') ? 'active' : '' }}" aria-current="true">Akun</a>
+      @endif
       <a href="#" class="list-group-item list-group-item-action rounded-0 py-3" aria-current="true">Tutorial</a>
       @if(Auth::check())
         <a href="{{ route('logout') }}" class="list-group-item list-group-item-action py-3 rounded-0 text-danger">Logout</a>

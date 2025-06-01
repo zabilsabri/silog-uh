@@ -157,3 +157,7 @@ label{
     color: #007bff; /* Adjust color to match your design */
     text-decoration: underline;
 }
+
+.page-link {
+    font-size: 13px !important;
+}

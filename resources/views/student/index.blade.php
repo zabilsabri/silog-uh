@@ -41,7 +41,7 @@
                 <tbody>
                     @forelse($users as $index => $user)
                         <tr>
-                            <th scope="row" class="text-center" style="width: 50px">{{ $index + 1 }}</th>
+                            <th scope="row" class="text-center" style="width: 50px">{{ $users->firstItem() + $index }}</th>
                             <td>{{ ($user->first_name && $user->last_name) ? $user->first_name . " " . $user->last_name : '-' }}</td>
                             <td>{{ $user->username }}</td>
                             @if(!empty($user->thesis))

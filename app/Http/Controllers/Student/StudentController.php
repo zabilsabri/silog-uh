@@ -79,7 +79,7 @@ class StudentController extends Controller
 
         $user = new User();
         $user->username = $request->input('nim');
-        $user->password = Hash::make($request->input('username'));
+        $user->password = Hash::make($request->input('nim'));
         $user->save();
 
         return redirect()->route('students.admin')->with('success', 'Mahasiswa berhasil ditambahkan');

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Examiner extends Model
 {
-    protected $table = 'Examiners';
+    protected $table = 'examiners';
     protected $primaryKey = 'id';
     public $incrementing = false;
     public $keyType = 'string';
